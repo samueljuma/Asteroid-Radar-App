@@ -7,18 +7,29 @@ import com.udacity.asteroidradar.Asteroid
 
 class MainViewModel : ViewModel() {
 
-    val listOfAsteroids = listOf(
-        Asteroid(0,"68347 (2001 B67)","2020-02-08",20.0,
-            20.0,20.0,20.0,true),
-        Asteroid(0,"68347 (2001 B67)","2020-02-08",20.0,
-            20.0,20.0,20.0,true),
-        Asteroid(0,"68347 (2001 B67)","2020-02-08",20.0,
-            20.0,20.0,20.0,true),
-        Asteroid(0,"68347 (2001 B67)","2020-02-08",20.0,
-            20.0,20.0,20.0,true),
-        Asteroid(0,"68347 (2001 B67)","2020-02-08",20.0,
-            20.0,20.0,20.0,true),
-    )
+    private val _listOfAsteroids = MutableLiveData<List<Asteroid>>()
+    val listOfAsteroids: LiveData<List<Asteroid>> =_listOfAsteroids
+
+    private fun loadAsteroids(){
+        val asteroids = listOf(
+            Asteroid(0,"68347 (2001 B67)","2020-02-08",20.0,
+                20.0,20.0,20.0,true),
+            Asteroid(0,"68347 (2001 B67)","2020-02-08",20.0,
+                20.0,20.0,20.0,false),
+            Asteroid(0,"68347 (2001 B67)","2020-02-08",20.0,
+                20.0,20.0,20.0,true),
+            Asteroid(0,"68347 (2001 B67)","2020-02-08",20.0,
+                20.0,20.0,20.0,false),
+            Asteroid(0,"68347 (2001 B67)","2020-02-08",20.0,
+                20.0,20.0,20.0,true),
+        )
+        _listOfAsteroids.value = asteroids
+    }
+
+    init {
+        loadAsteroids()
+    }
+
 
     private val _navigateToDetails = MutableLiveData<Asteroid?>()
     val navigateToDetails: LiveData<Asteroid?> =_navigateToDetails

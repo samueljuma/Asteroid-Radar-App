@@ -33,7 +33,11 @@ class MainFragment : Fragment() {
         binding.asteroidRecycler.adapter = adapter
 
         binding.asteroidRecycler.layoutManager = LinearLayoutManager(context)
-        adapter.submitList(viewModel.listOfAsteroids)
+        viewModel.listOfAsteroids.observe(viewLifecycleOwner){ asteroids->
+            asteroids?.let {
+                adapter.submitList(asteroids)
+            }
+        }
 
         viewModel.navigateToDetails.observe(viewLifecycleOwner){
             it?.let {
