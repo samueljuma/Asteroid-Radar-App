@@ -7,8 +7,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.udacity.asteroidradar.Asteroid
+import com.udacity.asteroidradar.BuildConfig
+import com.udacity.asteroidradar.Constants
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 class MainFragment : Fragment() {
 
@@ -33,6 +39,9 @@ class MainFragment : Fragment() {
         binding.asteroidRecycler.adapter = adapter
 
         binding.asteroidRecycler.layoutManager = LinearLayoutManager(context)
+
+        viewModel.fetchAsteroids(getCurrentDate(), getEndDate(getCurrentDate()), "Djj9eWYT202t0frsBlFT4Je4utiA7j92PRpbagfB")
+
         viewModel.listOfAsteroids.observe(viewLifecycleOwner){ asteroids->
             asteroids?.let {
                 adapter.submitList(asteroids)
@@ -50,7 +59,6 @@ class MainFragment : Fragment() {
 
 
 
-
         binding.viewModel = viewModel
 
         setHasOptionsMenu(true)
@@ -65,5 +73,19 @@ class MainFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return true
+    }
+
+    private fun getCurrentDate(): String{
+        val dateFormat = SimpleDateFormat(Constants.API_QUERY_DATE_FORMAT, Locale.getDefault())
+        return dateFormat.format(Date())
+    }
+
+    private fun getEndDate(startDate: String): String{
+        val dateFormat = SimpleDateFormat(Constants.API_QUERY_DATE_FORMAT, Locale.getDefault())
+        val currentDate = dateFormat.parse(startDate)
+        val calendar = Calendar.getInstance()
+        calendar.time = currentDate!!
+        calendar.add(Calendar.DAY_OF_YEAR, Constants.DEFAULT_END_DATE_DAYS)
+        return dateFormat.format(calendar.time)
     }
 }
