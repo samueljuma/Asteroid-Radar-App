@@ -10,6 +10,8 @@ import com.udacity.asteroidradar.BuildConfig
 import com.udacity.asteroidradar.utils.Constants
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
+import com.udacity.asteroidradar.utils.getCurrentDate
+import com.udacity.asteroidradar.utils.getEndDate
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -77,17 +79,4 @@ class MainFragment : Fragment() {
         return true
     }
 
-    private fun getCurrentDate(): String{
-        val dateFormat = SimpleDateFormat(Constants.API_QUERY_DATE_FORMAT, Locale.getDefault())
-        return dateFormat.format(Date())
-    }
-
-    private fun getEndDate(startDate: String): String{
-        val dateFormat = SimpleDateFormat(Constants.API_QUERY_DATE_FORMAT, Locale.getDefault())
-        val currentDate = dateFormat.parse(startDate)
-        val calendar = Calendar.getInstance()
-        calendar.time = currentDate!!
-        calendar.add(Calendar.DAY_OF_YEAR, Constants.DEFAULT_END_DATE_DAYS)
-        return dateFormat.format(calendar.time)
-    }
 }
