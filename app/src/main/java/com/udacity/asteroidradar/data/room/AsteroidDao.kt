@@ -12,7 +12,8 @@ import retrofit2.http.GET
 @Dao
 interface AsteroidDao {
 
-    @Query("SELECT * FROM asteroids")
+    //query sorts result by date
+    @Query("SELECT * FROM asteroids ORDER BY closeApproachDate")
     fun getALlAsteroids() : LiveData<List<Asteroid>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

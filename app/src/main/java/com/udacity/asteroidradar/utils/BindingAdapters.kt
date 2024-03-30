@@ -1,5 +1,6 @@
 package com.udacity.asteroidradar.utils
 
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
@@ -39,4 +40,9 @@ fun bindTextViewToKmUnit(textView: TextView, number: Double) {
 fun bindTextViewToDisplayVelocity(textView: TextView, number: Double) {
     val context = textView.context
     textView.text = String.format(context.getString(R.string.km_s_unit_format), number)
+}
+
+@BindingAdapter("isSpinnerVisible")
+fun spinnerVisibility(view: View, it: Any?){
+    view.visibility = if (it != null) View.GONE else View.VISIBLE
 }
