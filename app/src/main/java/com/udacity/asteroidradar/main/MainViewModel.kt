@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.udacity.asteroidradar.Asteroid
+import com.udacity.asteroidradar.data.Asteroid
 import com.udacity.asteroidradar.repository.AsteroidRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

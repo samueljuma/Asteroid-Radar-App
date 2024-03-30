@@ -1,9 +1,9 @@
 package com.udacity.asteroidradar.repository
 
 import android.util.Log
-import com.udacity.asteroidradar.Asteroid
-import com.udacity.asteroidradar.api.RetrofitClient
-import com.udacity.asteroidradar.api.parseAsteroidsJsonResult
+import com.udacity.asteroidradar.data.Asteroid
+import com.udacity.asteroidradar.data.api.RetrofitClient
+import com.udacity.asteroidradar.data.api.parseAsteroidsJsonResult
 import org.json.JSONObject
 import retrofit2.HttpException
 import java.io.IOException

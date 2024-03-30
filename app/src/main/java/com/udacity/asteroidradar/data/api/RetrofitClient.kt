@@ -1,6 +1,6 @@
-package com.udacity.asteroidradar.api
+package com.udacity.asteroidradar.data.api
 
-import com.udacity.asteroidradar.Constants
+import com.udacity.asteroidradar.utils.Constants
 import retrofit2.Retrofit
 import retrofit2.converter.scalars.ScalarsConverterFactory
 
