@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.udacity.asteroidradar.BuildConfig
 import com.udacity.asteroidradar.utils.Constants
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
@@ -17,7 +18,10 @@ import java.util.Locale
 class MainFragment : Fragment() {
 
     private val viewModel: MainViewModel by lazy {
-        ViewModelProvider(this)[MainViewModel::class.java]
+        val activity  = requireNotNull(this.activity) {
+            "You can only access the viewModel after onViewCreated()"
+        }
+        ViewModelProvider(this, MainViewModel.Factory(activity.application))[MainViewModel::class.java]
     }
 
     private lateinit var adapter: AsteroidItemAdapter
@@ -38,9 +42,9 @@ class MainFragment : Fragment() {
 
         binding.asteroidRecycler.layoutManager = LinearLayoutManager(context)
 
-        viewModel.fetchAsteroids(getCurrentDate(), getEndDate(getCurrentDate()), "Djj9eWYT202t0frsBlFT4Je4utiA7j92PRpbagfB")
+        viewModel.fetchAsteroids(getCurrentDate(), getEndDate(getCurrentDate()), BuildConfig.API_KEY)
 
-        viewModel.listOfAsteroids.observe(viewLifecycleOwner){ asteroids->
+        viewModel.asteroids.observe(viewLifecycleOwner){ asteroids->
             asteroids?.let {
                 adapter.submitList(asteroids)
             }
