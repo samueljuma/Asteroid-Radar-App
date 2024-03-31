@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.udacity.asteroidradar.data.Asteroid
+import com.udacity.asteroidradar.data.PictureOfDay
 import com.udacity.asteroidradar.data.room.AsteroidDatabase
 import com.udacity.asteroidradar.repository.AsteroidRepository
 import kotlinx.coroutines.Dispatchers
@@ -53,6 +54,14 @@ class MainViewModel (
                 return MainViewModel(app) as T
             }
             throw IllegalAccessException("Unable to construct ViewModel")
+        }
+    }
+
+    private val _pictureOfDay = MutableLiveData<PictureOfDay>()
+    val pictureOfDay: LiveData<PictureOfDay> = _pictureOfDay
+    fun fetchPictureOfDay(){
+        viewModelScope.launch {
+            _pictureOfDay.value = repository.getPictureOfDay()
         }
     }
 

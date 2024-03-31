@@ -2,7 +2,9 @@ package com.udacity.asteroidradar.repository
 
 import android.util.Log
 import androidx.lifecycle.LiveData
+import com.udacity.asteroidradar.BuildConfig
 import com.udacity.asteroidradar.data.Asteroid
+import com.udacity.asteroidradar.data.PictureOfDay
 import com.udacity.asteroidradar.data.api.RetrofitClient
 import com.udacity.asteroidradar.data.api.parseAsteroidsJsonResult
 import com.udacity.asteroidradar.data.room.AsteroidDao
@@ -11,8 +13,26 @@ import kotlinx.coroutines.flow.Flow
 import org.json.JSONObject
 import retrofit2.HttpException
 import java.io.IOException
+import java.lang.reflect.Executable
+import java.security.interfaces.RSAKey
 
 class AsteroidRepository (private val database: AsteroidDatabase) {
+
+    //Function fetches Picture of the Day from the Internet
+     suspend fun getPictureOfDay(): PictureOfDay {
+        lateinit var picture: PictureOfDay
+
+        try{
+            val response = RetrofitClient.nasaAPIService.getPictureOfDay(BuildConfig.API_KEY)
+            val body = response.body()
+            if(body != null){
+                picture = body
+            }
+        }catch (exception: java.lang.Exception){
+            Log.e("Tagy", "Failed to get photo from API", exception)
+        }
+        return picture
+    }
 
     suspend fun fetchAsteroids (startDate: String, endDate: String, apiKey: String) {
          try {

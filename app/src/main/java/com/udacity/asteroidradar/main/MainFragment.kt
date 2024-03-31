@@ -44,7 +44,10 @@ class MainFragment : Fragment() {
 
         binding.asteroidRecycler.layoutManager = LinearLayoutManager(context)
 
+        //fetch Data from Internet : asteroids and Picture of Day
         viewModel.fetchAsteroids(getCurrentDate(), getEndDate(getCurrentDate()), BuildConfig.API_KEY)
+        viewModel.fetchPictureOfDay()
+
 
         viewModel.asteroids.observe(viewLifecycleOwner){ asteroids->
             asteroids?.let {

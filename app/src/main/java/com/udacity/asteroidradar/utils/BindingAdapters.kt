@@ -4,7 +4,9 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import com.bumptech.glide.Glide
 import com.udacity.asteroidradar.R
+import com.udacity.asteroidradar.data.PictureOfDay
 
 @BindingAdapter("statusIcon")
 fun bindAsteroidStatusImage(imageView: ImageView, isHazardous: Boolean) {
@@ -45,4 +47,14 @@ fun bindTextViewToDisplayVelocity(textView: TextView, number: Double) {
 @BindingAdapter("isSpinnerVisible")
 fun spinnerVisibility(view: View, it: Any?){
     view.visibility = if (it != null) View.GONE else View.VISIBLE
+}
+
+//Binds Image of the day to the Image View
+@BindingAdapter("loadPictureOfDay")
+fun loadPictureOfDay(imageView: ImageView, url: String?){
+ url?.let {
+        Glide.with(imageView.context)
+            .load(it)
+            .into(imageView)
+    }
 }
