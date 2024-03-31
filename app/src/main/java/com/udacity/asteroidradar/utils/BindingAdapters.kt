@@ -3,6 +3,7 @@ package com.udacity.asteroidradar.utils
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.squareup.picasso.Picasso
@@ -58,16 +59,24 @@ fun spinnerVisibility(view: View, it: Any?){
 
 //Binds Image of the day to the Image View
 @BindingAdapter("loadPictureOfDay")
-fun loadPictureOfDay(imageView: ImageView, url: String?){
- url?.let {
-     Picasso.with(imageView.context)
-         .load(it)
-         .into(imageView)
-                                    //Both Libraries work perfect
+fun loadPictureOfDay(imageView: ImageView, pic: PictureOfDay?){
+ pic?.let {
+     if(pic.mediaType == "image"){
+         Picasso.with(imageView.context)
+             .load(it.url)
+             .into(imageView)
+     }else{
+         Toast.makeText(
+             imageView.context, "Couldn\'tPicture of day because it is not Image",
+             Toast.LENGTH_SHORT).show()
+         imageView.setImageResource(R.drawable.placeholder_picture_of_day)
+     }
+
+     //Both Libraries work perfect
 //        Glide.with(imageView.context)
 //            .load(it)
 //            .into(imageView)
-    } ?: run {
+ } ?: run {
         imageView.setImageResource(R.drawable.placeholder_picture_of_day)
  }
 }
