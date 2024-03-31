@@ -5,6 +5,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
+import com.squareup.picasso.Picasso
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.data.PictureOfDay
 
@@ -21,8 +22,14 @@ fun bindAsteroidStatusImage(imageView: ImageView, isHazardous: Boolean) {
 fun bindDetailsStatusImage(imageView: ImageView, isHazardous: Boolean) {
     if (isHazardous) {
         imageView.setImageResource(R.drawable.asteroid_hazardous)
+
+        //set contentDescription for image
+        imageView.contentDescription = imageView.context.getString(R.string.potentially_hazardous_asteroid_image)
     } else {
         imageView.setImageResource(R.drawable.asteroid_safe)
+
+        //set contentDescription for image
+        imageView.contentDescription = imageView.context.getString(R.string.not_hazardous_asteroid_image)
     }
 }
 
@@ -53,8 +60,15 @@ fun spinnerVisibility(view: View, it: Any?){
 @BindingAdapter("loadPictureOfDay")
 fun loadPictureOfDay(imageView: ImageView, url: String?){
  url?.let {
-        Glide.with(imageView.context)
-            .load(it)
-            .into(imageView)
-    }
+     Picasso.with(imageView.context)
+         .load(it)
+         .into(imageView)
+                                    //Both Libraries work perfect
+//        Glide.with(imageView.context)
+//            .load(it)
+//            .into(imageView)
+    } ?: run {
+        imageView.setImageResource(R.drawable.placeholder_picture_of_day)
+ }
 }
+
