@@ -2,6 +2,7 @@ package com.udacity.asteroidradar.main
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -10,6 +11,7 @@ import com.udacity.asteroidradar.BuildConfig
 import com.udacity.asteroidradar.utils.Constants
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
+import com.udacity.asteroidradar.utils.Filter
 import com.udacity.asteroidradar.utils.getCurrentDate
 import com.udacity.asteroidradar.utils.getEndDate
 import java.text.SimpleDateFormat
@@ -48,6 +50,7 @@ class MainFragment : Fragment() {
         viewModel.fetchAsteroids(getCurrentDate(), getEndDate(getCurrentDate()), BuildConfig.API_KEY)
         viewModel.fetchPictureOfDay()
 
+        viewModel.setFilter(Filter.ALL)
         viewModel.asteroids.observe(viewLifecycleOwner){ asteroids->
             asteroids?.let {
                 adapter.submitList(asteroids)
@@ -78,7 +81,24 @@ class MainFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return true
+        return when(item.itemId){
+            R.id.menu_today -> {
+                viewModel.setFilter(Filter.TODAY)
+                Toast.makeText(context, "Today\'s Asteroids",Toast.LENGTH_SHORT).show()
+                true
+            }
+            R.id.menu_week -> {
+                viewModel.setFilter(Filter.WEEK)
+                Toast.makeText(context, "Weeks\'s Asteroids",Toast.LENGTH_SHORT).show()
+                true
+            }
+            R.id.menu_all -> {
+                viewModel.setFilter(Filter.ALL)
+                Toast.makeText(context, "All Asteroids",Toast.LENGTH_SHORT).show()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
 }

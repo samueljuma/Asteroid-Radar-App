@@ -20,3 +20,13 @@ fun getEndDate(startDate: String): String{
     calendar.add(Calendar.DAY_OF_YEAR, Constants.DEFAULT_END_DATE_DAYS)
     return dateFormat.format(calendar.time)
 }
+
+//Function gets all asteroids for full week (7 days)
+fun getEndOfWeekEndDate(startDate: String): String{
+    val dateFormat = SimpleDateFormat(Constants.API_QUERY_DATE_FORMAT, Locale.getDefault())
+    val currentDate = dateFormat.parse(startDate)
+    val calendar = Calendar.getInstance()
+    calendar.time = currentDate!!
+    calendar.add(Calendar.DAY_OF_YEAR, Constants.DAYS_IN_A_WEEK)
+    return dateFormat.format(calendar.time)
+}

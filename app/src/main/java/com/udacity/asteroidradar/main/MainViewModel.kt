@@ -2,6 +2,7 @@ package com.udacity.asteroidradar.main
 
 import android.app.Application
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -10,8 +11,10 @@ import com.udacity.asteroidradar.data.Asteroid
 import com.udacity.asteroidradar.data.PictureOfDay
 import com.udacity.asteroidradar.data.room.AsteroidDatabase
 import com.udacity.asteroidradar.repository.AsteroidRepository
+import com.udacity.asteroidradar.utils.Filter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+//import androidx.lifecycle.Transformations
 
 class MainViewModel (
     application: Application // Will be needed for creating database
@@ -35,8 +38,27 @@ class MainViewModel (
         }
     }
 
-    //Get list of Asteroids from room database
-    val asteroids = repository.getAsteroidsFromDb()
+    /**
+     *  Get list of Asteroids from room database based on filter
+     *  MediatorLiveData in use
+     */
+
+    private val _filter = MutableLiveData<Filter>(Filter.ALL)
+    val asteroids: LiveData<List<Asteroid>> = MediatorLiveData<List<Asteroid>>().apply {
+        addSource(_filter) { filter ->
+            viewModelScope.launch {
+                val filteredAsteroids = repository.getAsteroidsByFilter(filter)
+                addSource(filteredAsteroids) { asteroids ->
+                    value = asteroids
+                }
+            }
+        }
+    }
+
+    fun setFilter(filter: Filter){
+        _filter.value = filter
+    }
+
 
     //Get PhotoOfDay from room database
     val pictureOfDay: LiveData<PictureOfDay> = repository.getPictureOfDayFromDB()

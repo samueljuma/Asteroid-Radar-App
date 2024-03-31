@@ -9,6 +9,9 @@ import com.udacity.asteroidradar.data.api.RetrofitClient
 import com.udacity.asteroidradar.data.api.parseAsteroidsJsonResult
 import com.udacity.asteroidradar.data.room.AsteroidDao
 import com.udacity.asteroidradar.data.room.AsteroidDatabase
+import com.udacity.asteroidradar.utils.Filter
+import com.udacity.asteroidradar.utils.getCurrentDate
+import com.udacity.asteroidradar.utils.getEndOfWeekEndDate
 import kotlinx.coroutines.flow.Flow
 import org.json.JSONObject
 import retrofit2.HttpException
@@ -55,6 +58,17 @@ class AsteroidRepository (private val database: AsteroidDatabase) {
 
     // get list of Asteroids from room database
     fun getAsteroidsFromDb(): LiveData<List<Asteroid>> = database.asteroidDao.getALlAsteroids()
+
+    /**
+     * Use filter to get list of asteroids
+     */
+    fun getAsteroidsByFilter(filter:Filter): LiveData<List<Asteroid>>{
+        return when (filter){
+            Filter.TODAY -> database.asteroidDao.getTodayAsteroids(getCurrentDate())
+            Filter.WEEK -> database.asteroidDao.getWeekAsteroids(getCurrentDate(), getEndOfWeekEndDate(getCurrentDate()))
+            Filter.ALL -> database.asteroidDao.getALlAsteroids()
+        }
+    }
 
     fun getPictureOfDayFromDB(): LiveData<PictureOfDay> = database.pictureOfDayDao.getPictureOfDay()
 
