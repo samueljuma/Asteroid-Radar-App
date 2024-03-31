@@ -19,7 +19,7 @@ import java.security.interfaces.RSAKey
 class AsteroidRepository (private val database: AsteroidDatabase) {
 
     //Function fetches Picture of the Day from the Internet
-     suspend fun getPictureOfDay(): PictureOfDay {
+     suspend fun fetchPictureOfDayAndAndSaveToDb() {
         lateinit var picture: PictureOfDay
 
         try{
@@ -27,11 +27,14 @@ class AsteroidRepository (private val database: AsteroidDatabase) {
             val body = response.body()
             if(body != null){
                 picture = body
+
+                //Save photo to Room Database
+                database.pictureOfDayDao.insertPhotoOFDayToDb(picture)
             }
-        }catch (exception: java.lang.Exception){
+        }catch (exception: HttpException){
             Log.e("Tagy", "Failed to get photo from API", exception)
         }
-        return picture
+
     }
 
     suspend fun fetchAsteroids (startDate: String, endDate: String, apiKey: String) {
@@ -52,5 +55,7 @@ class AsteroidRepository (private val database: AsteroidDatabase) {
 
     // get list of Asteroids from room database
     fun getAsteroidsFromDb(): LiveData<List<Asteroid>> = database.asteroidDao.getALlAsteroids()
+
+    fun getPictureOfDayFromDB(): LiveData<PictureOfDay> = database.pictureOfDayDao.getPictureOfDay()
 
 }

@@ -46,7 +46,7 @@ class MainFragment : Fragment() {
 
         //fetch Data from Internet : asteroids and Picture of Day
         viewModel.fetchAsteroids(getCurrentDate(), getEndDate(getCurrentDate()), BuildConfig.API_KEY)
-        val pictureOfDay = viewModel.fetchPictureOfDay()
+        viewModel.fetchPictureOfDay()
 
         viewModel.asteroids.observe(viewLifecycleOwner){ asteroids->
             asteroids?.let {

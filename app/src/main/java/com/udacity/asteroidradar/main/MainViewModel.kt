@@ -21,15 +21,25 @@ class MainViewModel (
     private val database = AsteroidDatabase.getInstance(application)
     private val repository = AsteroidRepository(database)
 
-    //Fetch asteroids from the network
+    //Fetch asteroids from the network and save in DD
     fun fetchAsteroids(startDate: String, endDate: String, apiKey: String){
         viewModelScope.launch (Dispatchers.IO) {
             repository.fetchAsteroids(startDate, endDate, apiKey)
         }
     }
 
+    //FetchPictureOfDay from network and Save in DB
+    fun fetchPictureOfDay(){
+        viewModelScope.launch (Dispatchers.IO) {
+            repository.fetchPictureOfDayAndAndSaveToDb()
+        }
+    }
+
     //Get list of Asteroids from room database
     val asteroids = repository.getAsteroidsFromDb()
+
+    //Get PhotoOfDay from room database
+    val pictureOfDay: LiveData<PictureOfDay> = repository.getPictureOfDayFromDB()
 
     private val _navigateToDetails = MutableLiveData<Asteroid?>()
     val navigateToDetails: LiveData<Asteroid?> =_navigateToDetails
@@ -57,13 +67,6 @@ class MainViewModel (
         }
     }
 
-    private val _pictureOfDay = MutableLiveData<PictureOfDay>()
-    val pictureOfDay: LiveData<PictureOfDay> = _pictureOfDay
-    fun fetchPictureOfDay(){
-        viewModelScope.launch {
-            _pictureOfDay.value = repository.getPictureOfDay()
-        }
-    }
 
 
 }
