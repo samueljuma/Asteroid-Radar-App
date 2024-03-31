@@ -14,8 +14,14 @@ import com.udacity.asteroidradar.data.PictureOfDay
 fun bindAsteroidStatusImage(imageView: ImageView, isHazardous: Boolean) {
     if (isHazardous) {
         imageView.setImageResource(R.drawable.ic_status_potentially_hazardous)
+
+        //Set Image content description
+        imageView.contentDescription = imageView.context.getString(R.string.potentially_hazardous_text_holder)
     } else {
         imageView.setImageResource(R.drawable.ic_status_normal)
+
+        //Set Image content description
+        imageView.contentDescription = imageView.context.getString(R.string.potentially_hazardous_text_holder)
     }
 }
 
@@ -67,7 +73,7 @@ fun loadPictureOfDay(imageView: ImageView, pic: PictureOfDay?){
              .into(imageView)
      }else{
          Toast.makeText(
-             imageView.context, "Couldn\'tPicture of day because it is not Image",
+             imageView.context, "Couldn\'t Load Image of the day because it is not Image",
              Toast.LENGTH_SHORT).show()
          imageView.setImageResource(R.drawable.placeholder_picture_of_day)
      }
