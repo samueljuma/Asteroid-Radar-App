@@ -19,6 +19,6 @@
 * [Picasso](https://square.github.io/picasso/) - A powerful image downloading and caching library for Android
 
 ### Screenshots
-| <img src="screenshots/1.jpeg" width=280/> | <img src="screenshots/2.jpeg" width=280/> |
-|:-----------------------------------------:|:-----------------------------------------:|
-| <img src="screenshots/3.jpeg" width=280/> | <img src="screenshots/4.jpeg" width=280/> |
+| <img src="screenshots/1.jpeg" width=280/> | <img src="screenshots/2.jpeg" width=280/> | <img src="screenshots/3.jpeg" width=280/> | <img src="screenshots/4.jpeg" width=280/> |
+|:-----------------------------------------:|:-----------------------------------------:|:-----------------------------------------:|:-----------------------------------------:|
+
